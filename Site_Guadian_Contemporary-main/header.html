@@ -1,0 +1,32 @@
+
+<header> 
+    <!-- 1. Esquerda: Nome e Logo -->
+    <div class="brand-container">
+        <img src="https://raw.githubusercontent.com/Abzame/Site_Guadian_Contemporary/refs/heads/main/Imagens/Logo%20normal.jpeg?token=GHSAT0AAAAAAENNF3HFOR5RTZSYIYZBT3B42XDTLRQ" alt="Logo" class="brand-logo">
+        <div class="brand-titles">
+            <h1>CONTEMPORARY GUARDIAN</h1>
+            <h2>Real Estate Portugal</h2>
+        </div>
+    </div>
+
+    <!-- 2. Centro: Menu -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="imoveis.html">Imóveis</a></li>
+        </ul>
+    </nav>
+        
+    <!-- 3. Direita: Lupa Expansível + Email -->
+    <div class="header-right">
+        <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="filtroTexto" class="search-input-expand" placeholder="Pesquisar imóvel, zona..." oninput="filtrarImoveis()">
+        </div>
+    </div>
+
+    <!-- Caixa flutuante onde aparecem os resultados em tempo real -->
+        <div id="sugestoesPesquisa" class="sugestoes-dropdown"></div>
+    </div>
+
+</header>

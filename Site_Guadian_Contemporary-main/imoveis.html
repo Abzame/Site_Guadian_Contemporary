@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imóveis - Contemporary Guardian Real Estate Portugal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <div class="hero-banner">
+        <h2>Catálogo de Imóveis Exclusivos</h2>
+        <p>Explore o nosso portefólio completo carregado diretamente da nossa base de dados.</p>
+    </div>
+
+    <div class="search-box-home" id="filtros">
+        <select id="filtroTipo" onchange="filtrarImoveis()">
+            <option value="">Todos os Tipos</option>
+            <option value="Moradia">Moradia</option>
+            <option value="Apartamento">Apartamento</option>
+            <option value="Quinta">Quinta</option>
+        </select>
+        <select id="filtroLocal" onchange="filtrarImoveis()">
+            <option value="">Todas as Localizações</option>
+            <option value="Santarém">Santarém</option>
+            <option value="Lisboa">Lisboa</option>
+            <option value="Évora">Évora</option>
+            <option value="Cascais">Cascais</option>
+            <option value="Coimbra">Coimbra</option>
+            <option value="Porto">Porto</option>
+        </select>
+        <input type="number" id="filtroPreco" placeholder="Preço Máximo (€)" oninput="filtrarImoveis()">
+        <button onclick="limparFiltros()">Limpar Filtros</button>
+    </div>
+
+    <main class="container">
+        <div class="grid-imoveis" id="gridImoveis">
+            <!-- Os imóveis são injetados dinamicamente via JavaScript através do ficheiro imoveis.json -->
+        </div>
+    </main>
+
+    <footer>
+        <h3>Contemporary Guardian Real Estate Portugal</h3>
+        <p>Email: contemporaryguardian@gmail.com</p>
+        <p style="margin-top: 1.5rem; font-size: 0.8rem; color: #555;">&copy; 2026 Contemporary Guardian. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="static/scripts.js"></script>
+</body>
+</html>
