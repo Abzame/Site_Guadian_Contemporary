@@ -64,11 +64,20 @@ function configurarPesquisaTempoReal() {
             return;
         }
 
-        const encontrados = todosImoveis.filter(i => 
-            i.titulo.toLowerCase().includes(texto) || 
-            i.localizacao.toLowerCase().includes(texto) ||
-            i.tipo.toLowerCase().includes(texto)
-        );
+        // Tratamento para limpar o termo de pesquisa caso incluam "cg-"
+        const termoSemPrefixo = texto.replace('cg-', '').replace('cg', '');
+
+        const encontrados = todosImoveis.filter(imovel => {
+            const idTexto = imovel.id.toString();
+            const refCompleta = `cg-${imovel.id}`.toLowerCase();
+
+            const matchTitulo = imovel.titulo.toLowerCase().includes(texto);
+            const matchLocal = imovel.localizacao.toLowerCase().includes(texto);
+            const matchTipo = imovel.tipo.toLowerCase().includes(texto);
+            const matchRef = refCompleta.includes(texto) || idTexto === termoSemPrefixo;
+
+            return matchTitulo || matchLocal || matchTipo || matchRef;
+        });
 
         if (encontrados.length === 0) {
             dropdown.innerHTML = '<div style="padding: 10px; font-size: 0.85rem; color: #888; text-align: center;">Nenhum imóvel encontrado</div>';
@@ -78,14 +87,17 @@ function configurarPesquisaTempoReal() {
 
         dropdown.innerHTML = "";
         encontrados.forEach(imovel => {
+            // Suporte para array de imagens ou imagem única
+            const imagemSrc = imovel.imagens ? imovel.imagens[0] : imovel.imagem;
+
             const item = document.createElement('a');
             item.href = `detalhe.html?id=${imovel.id}`;
             item.className = 'sugestao-item';
             item.innerHTML = `
-                <img src="${imovel.imagem}" alt="${imovel.titulo}">
+                <img src="${imagemSrc}" alt="${imovel.titulo}">
                 <div class="sugestao-info">
                     <h4>${imovel.titulo}</h4>
-                    <p>${imovel.localizacao} - ${imovel.preco.toLocaleString('pt-PT')} €</p>
+                    <p>Ref: CG-${imovel.id} • ${imovel.localizacao} • <strong style="color: var(--cor-principal);">${imovel.preco.toLocaleString('pt-PT')} €</strong></p>
                 </div>
             `;
             dropdown.appendChild(item);
@@ -109,6 +121,8 @@ function carregarDetalhesImovel() {
     const idImovel = parseInt(urlParams.get('id'));
     const container = document.getElementById('detalheImovel');
 
+    if (!container) return;
+
     const imovel = todosImoveis.find(i => i.id === idImovel);
 
     if (!imovel) {
@@ -116,26 +130,65 @@ function carregarDetalhesImovel() {
         return;
     }
 
+    const listaImagens = imovel.imagens || [imovel.imagem];
+
     container.innerHTML = `
+        <!-- Coluna Esquerda: Carrossel de Imagens -->
         <div>
-            <img src="${imovel.imagem}" alt="${imovel.titulo}" style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px; border: 2px solid var(--dourado);">
+            <div class="carrossel-container">
+                <button class="carrossel-btn carrossel-btn-prev" onclick="mudarImagemCarrossel(-1)">&#10094;</button>
+                <img id="imagemPrincipal" src="${listaImagens[0]}" alt="${imovel.titulo}" class="carrossel-imagem-principal">
+                <button class="carrossel-btn carrossel-btn-next" onclick="mudarImagemCarrossel(1)">&#10095;</button>
+            </div>
+            
+            <!-- Miniaturas -->
+            <div class="carrossel-miniaturas" id="containerMiniaturas">
+                ${listaImagens.map((img, index) => `
+                    <img src="${img}" class="miniatura-img ${index === 0 ? 'ativa' : ''}" onclick="selecionarImagem(${index})" alt="Miniatura ${index + 1}">
+                `).join('')}
+            </div>
         </div>
+
+        <!-- Coluna Direita: Informações e Preço em Destaque -->
         <div>
-            <span style="color: var(--dourado); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px;">${imovel.tipo} Exclusivo</span>
+            <span style="color: var(--cor-principal); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px;">${imovel.tipo} Exclusivo</span>
             <h1 style="color: #fff; font-size: 2.2rem; margin: 0.5rem 0 1rem 0; font-family: 'Cinzel', serif;">${imovel.titulo}</h1>
-            <div style="font-size: 1.8rem; color: var(--dourado); font-weight: bold; margin-bottom: 1.5rem;">${imovel.preco.toLocaleString('pt-PT')} €</div>
+            
+            <!-- Caixa de Preço em Destaque -->
+            <div class="preco-destaque-box">
+                <div>
+                    <span style="font-size: 0.8rem; color: #aaa; text-transform: uppercase; display: block; letter-spacing: 1px;">Valor do Investimento</span>
+                    <div class="preco-valor">${imovel.preco.toLocaleString('pt-PT')} €</div>
+                </div>
+                <div style="text-align: right; font-size: 0.85rem; color: var(--cor-principal);">
+                    Ref. CG-${imovel.id}
+                </div>
+            </div>
+
             <p style="color: #ccc; line-height: 1.8; margin-bottom: 2rem;">${imovel.descricao}</p>
             
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; background: #1a1a1a; padding: 20px; border-radius: 6px; border: 1px solid #333; margin-bottom: 2rem;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; background: #1a1a1a; padding: 20px; border-radius: 6px; border: 1px solid #333; margin-bottom: 1.5rem;">
                 <div>📍 <strong>Localização:</strong> ${imovel.localizacao}</div>
                 <div>🛏️ <strong>Quartos:</strong> ${imovel.quartos}</div>
                 <div>🚿 <strong>Casas de Banho:</strong> ${imovel.wc || 'N/D'}</div>
                 <div>📐 <strong>Área Útil:</strong> ${imovel.area} m²</div>
             </div>
 
-            <a href="mailto:contemporaryguardian@gmail.com?subject=Interesse no imóvel: ${imovel.titulo}" class="btn-detalhes" style="padding: 15px; font-size: 1rem; text-align: center; background: var(--dourado); color: #111; text-decoration: none; border-radius: 4px; display: block; font-weight: bold;">Agendar Visita / Contactar por Email</a>
+            <!-- Botão de Contacto com estilo limpo e visível -->
+            <!-- Botões de Contacto (Email e Telefone Direto) -->
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;">
+                <a href="tel:+351910000000" class="btn-contacto-detalhe" style="background: #1a1a1a !important; border: 1px solid var(--cor-principal);">
+                    📞 Ligar Diretamente (+351 910 000 000)
+                </a>
+                <a href="mailto:contemporaryguardian@gmail.com?subject=Interesse no imóvel: ${imovel.titulo} (Ref: CG-${imovel.id})" class="btn-contacto-detalhe">
+                    ✉️ Agendar Visita / Contactar por Email
+                </a>
+            </div>
         </div>
     `;
+
+    window.imagensAtuais = listaImagens;
+    window.indiceImagemAtual = 0;
 }
 
 
@@ -168,11 +221,24 @@ function filtrarImoveis() {
     const local = document.getElementById('filtroLocal') ? document.getElementById('filtroLocal').value : "";
     const precoMax = document.getElementById('filtroPreco') ? parseFloat(document.getElementById('filtroPreco').value) || Infinity : Infinity;
 
+    // Tratamento para limpar o termo de pesquisa caso incluam "cg-"
+    const termoSemPrefixo = texto.replace('cg-', '').replace('cg', '');
+
     const filtrados = todosImoveis.filter(imovel => {
-        const matchTexto = texto === "" || imovel.titulo.toLowerCase().includes(texto) || imovel.localizacao.toLowerCase().includes(texto);
+        const idTexto = imovel.id.toString();
+        const refCompleta = `cg-${imovel.id}`.toLowerCase();
+
+        // Verifica se o texto corresponde ao título, localização, ID ou referência completa (ex: cg-1)
+        const matchTexto = texto === "" || 
+                           imovel.titulo.toLowerCase().includes(texto) || 
+                           imovel.localizacao.toLowerCase().includes(texto) ||
+                           refCompleta.includes(texto) || 
+                           idTexto === termoSemPrefixo;
+
         const matchTipo = tipo === "" || imovel.tipo === tipo;
         const matchLocal = local === "" || imovel.localizacao.includes(local);
         const matchPreco = imovel.preco <= precoMax;
+
         return matchTexto && matchTipo && matchLocal && matchPreco;
     });
 
@@ -217,6 +283,33 @@ function destacarMenuAtivo() {
         }
     });
 }
+
+// Funções do Carrossel
+function mudarImagemCarrossel(direcao) {
+    if (!window.imagensAtuais) return;
+    window.indiceImagemAtual += direcao;
+    if (window.indiceImagemAtual >= window.imagensAtuais.length) window.indiceImagemAtual = 0;
+    else if (window.indiceImagemAtual < 0) window.indiceImagemAtual = window.imagensAtuais.length - 1;
+    atualizarVisualizacaoCarrossel();
+}
+
+function selecionarImagem(index) {
+    window.indiceImagemAtual = index;
+    atualizarVisualizacaoCarrossel();
+}
+
+function atualizarVisualizacaoCarrossel() {
+    const imgPrincipal = document.getElementById('imagemPrincipal');
+    if (imgPrincipal) imgPrincipal.src = window.imagensAtuais[window.indiceImagemAtual];
+    
+    const miniaturas = document.querySelectorAll('.miniatura-img');
+    miniaturas.forEach((min, idx) => {
+        if (idx === window.indiceImagemAtual) min.classList.add('ativa');
+        else min.classList.remove('ativa');
+    });
+}
+
+
 
 // Iniciar
 inicializarDados();

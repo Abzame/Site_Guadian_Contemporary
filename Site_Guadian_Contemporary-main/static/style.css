@@ -1,9 +1,9 @@
-/* Contemporary Guardian Real Estate Portugal - Estética Rústica & Luxo */
+/* Contemporary Guardian Real Estate Portugal - Novo Esquema (Vermelho, Branco e Preto) */
 :root {
     --bg-dark: #121212;
     --card-bg: #1a1a1a;
-    --dourado: #d4af37;
-    --dourado-hover: #f3e5ab;
+    --cor-principal: #cc1e22;      /* Vermelho inspirado no logótipo */
+    --cor-principal-hover: #e63946;  /* Vermelho mais claro para hover */
     --texto-claro: #e0e0e0;
 }
 
@@ -24,49 +24,49 @@ header {
     background: linear-gradient(rgba(18,18,18,0.9), rgba(18,18,18,0.95)), url('https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1600&q=80');
     background-size: cover;
     background-position: center;
-    border-bottom: 3px solid var(--dourado);
+    border-bottom: 3px solid var(--cor-principal);
     padding: 1.5rem 5%;
     display: flex;
-    justify-content: space-between; /* Distribui os 3 blocos: esquerda, centro, direita */
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 1.5rem;
 }
 
-/* 1. Lado Esquerdo: Marca (Fica fixo à esquerda) */
+/* 1. Lado Esquerdo: Marca */
 .brand-container, .header-brand {
     display: flex;
     align-items: center;
     gap: 1.2rem;
-    margin-right: auto; /* Empurra tudo o resto para a direita e fixa este elemento à esquerda */
+    margin-right: auto;
     justify-content: flex-start;
     text-align: left;
     flex: 0 0 auto !important;
-
 }
+
 .brand-logo {
     width: 70px;
     height: 70px;
-    border: 2px solid var(--dourado);
+    border: 2px solid var(--cor-principal);
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 15px rgba(204, 30, 34, 0.4);
 }
 
 .brand-titles h1 {
-    color: var(--dourado);
+    color: #fff;
     font-size: 1.6rem;
     letter-spacing: 2px;
 }
 
 .brand-titles h2 {
     font-size: 0.8rem;
-    color: var(--texto-claro);
+    color: var(--cor-principal);
     letter-spacing: 3px;
     text-transform: uppercase;
 }
 
-/* 2. Centro: Menu de Navegação (Perfeitamente centrado) */
+/* 2. Centro: Menu de Navegação */
 nav {
     flex: 1;
     display: flex;
@@ -89,20 +89,16 @@ nav ul li a {
 }
 
 nav ul li a:hover, nav ul li a.active {
-    color: var(--dourado);
+    color: var(--cor-principal);
 }
 
-/* 3. Lado Direito: Container para alinhar a lupa e o email à direita */
+/* 3. Lado Direito */
 .header-right {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 1.5rem;
-}
-
-.company-info {
-    text-align: right;
 }
 
 .company-info span {
@@ -113,13 +109,13 @@ nav ul li a:hover, nav ul li a.active {
 .hero-banner {
     text-align: center;
     padding: 5rem 2rem;
-    background: radial-gradient(circle, #2a2212 0%, var(--bg-dark) 80%);
+    background: radial-gradient(circle, #2a1212 0%, var(--bg-dark) 80%);
     border-bottom: 1px solid #333;
 }
 
 .hero-banner h2 {
     font-size: 2.8rem;
-    color: var(--dourado);
+    color: #fff;
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -137,7 +133,7 @@ nav ul li a:hover, nav ul li a.active {
     max-width: 900px;
     margin: -35px auto 40px auto;
     background: rgba(26, 26, 26, 0.95);
-    border: 1px solid var(--dourado);
+    border: 1px solid var(--cor-principal);
     padding: 25px;
     border-radius: 8px;
     display: flex;
@@ -151,7 +147,7 @@ nav ul li a:hover, nav ul li a.active {
 
 .search-box-home select, .search-box-home input {
     background: #111;
-    border: 1px solid var(--dourado);
+    border: 1px solid #444;
     color: #fff;
     padding: 12px 15px;
     border-radius: 4px;
@@ -161,9 +157,14 @@ nav ul li a:hover, nav ul li a.active {
     min-width: 200px;
 }
 
+.search-box-home select:focus, .search-box-home input:focus {
+    border-color: var(--cor-principal);
+    outline: none;
+}
+
 .search-box-home button {
-    background: var(--dourado);
-    color: #111;
+    background: var(--cor-principal);
+    color: #fff;
     border: none;
     padding: 12px 25px;
     font-weight: bold;
@@ -174,7 +175,7 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .search-box-home button:hover {
-    background: var(--dourado-hover);
+    background: var(--cor-principal-hover);
 }
 
 .container {
@@ -184,13 +185,13 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .section-title {
-    color: var(--dourado);
+    color: #fff;
     font-size: 2rem;
     text-align: center;
     margin-bottom: 2.5rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--cor-principal);
     padding-bottom: 1rem;
 }
 
@@ -211,14 +212,14 @@ nav ul li a:hover, nav ul li a.active {
 
 .card-imovel:hover {
     transform: translateY(-5px);
-    border-color: var(--dourado);
+    border-color: var(--cor-principal);
 }
 
 .card-imovel img {
     width: 100%;
     height: 220px;
     object-fit: cover;
-    border-bottom: 2px solid var(--dourado);
+    border-bottom: 2px solid var(--cor-principal);
 }
 
 .card-body {
@@ -226,14 +227,14 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .card-body h3 {
-    color: var(--dourado);
+    color: #fff;
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
 }
 
 .card-body .preco {
     font-size: 1.4rem;
-    color: #fff;
+    color: var(--cor-principal);
     font-weight: bold;
     margin-bottom: 1rem;
 }
@@ -248,9 +249,9 @@ nav ul li a:hover, nav ul li a.active {
     display: flex;
     justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--dourado);
+    color: #ccc;
     border-top: 1px solid #333;
-    padding-top: 1rem;
+    padding-top: 1.0rem;
 }
 
 .btn-detalhes {
@@ -258,8 +259,8 @@ nav ul li a:hover, nav ul li a.active {
     width: 100%;
     text-align: center;
     background: transparent;
-    border: 1px solid var(--dourado);
-    color: var(--dourado);
+    border: 1px solid var(--cor-principal);
+    color: #fff;
     padding: 10px;
     margin-top: 1rem;
     text-decoration: none;
@@ -269,13 +270,13 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .btn-detalhes:hover {
-    background: var(--dourado);
-    color: #111;
+    background: var(--cor-principal);
+    color: #fff;
 }
 
 footer {
     background: #090909;
-    border-top: 2px solid var(--dourado);
+    border-top: 2px solid var(--cor-principal);
     text-align: center;
     padding: 3rem 1rem;
     margin-top: 4rem;
@@ -283,7 +284,7 @@ footer {
 }
 
 footer h3 {
-    color: var(--dourado);
+    color: #fff;
     margin-bottom: 1rem;
 }
 
@@ -291,32 +292,29 @@ footer p {
     margin: 0.5rem 0;
 }
 
-
 /* Wrapper da Barra de Pesquisa Animada */
 .search-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     background: #111;
-    border: 1px solid var(--dourado);
+    border: 1px solid var(--cor-principal);
     border-radius: 25px;
     padding: 5px 12px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    width: 45px; /* Largura inicial mostrando apenas a lupa */
+    width: 45px;
     cursor: pointer;
 }
 
-/* Ícone da Lupa */
 .search-icon {
     font-size: 1.1rem;
-    color: var(--dourado);
+    color: var(--cor-principal);
     user-select: none;
     margin-right: 8px;
     flex-shrink: 0;
 }
 
-/* Campo de Texto Inicialmente Oculto/Encolhido */
 .search-input-expand {
     background: transparent !important;
     border: none !important;
@@ -330,11 +328,10 @@ footer p {
     transition: all 0.4s ease;
 }
 
-/* Efeito ao passar o Rato (Hover) ou Focar no Input */
 .search-input-wrapper:hover,
 .search-input-wrapper:focus-within {
-    width: 260px; /* Expande para a largura total */
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    width: 260px;
+    box-shadow: 0 0 12px rgba(204, 30, 34, 0.4);
 }
 
 .search-input-wrapper:hover .search-input-expand,
@@ -343,7 +340,7 @@ footer p {
     opacity: 1;
 }
 
-/* Container da Pesquisa e Dropdown Flutuante */
+/* Dropdown de Sugestões e Elementos da Página de Detalhes */
 .search-container-wrapper {
     position: relative;
 }
@@ -354,13 +351,13 @@ footer p {
     right: 0;
     width: 300px;
     background: #1a1a1a;
-    border: 1px solid var(--dourado);
+    border: 1px solid var(--cor-principal);
     border-radius: 6px;
     max-height: 350px;
     overflow-y: auto;
     box-shadow: 0 10px 25px rgba(0,0,0,0.9);
     z-index: 1000;
-    display: none; /* Escondido por predefinição */
+    display: none;
 }
 
 .sugestao-item {
@@ -383,16 +380,124 @@ footer p {
     height: 45px;
     object-fit: cover;
     border-radius: 4px;
-    border: 1px solid var(--dourado);
+    border: 1px solid var(--cor-principal);
 }
 
 .sugestao-info h4 {
     font-size: 0.85rem;
-    color: var(--dourado);
+    color: #fff;
     margin-bottom: 2px;
 }
 
 .sugestao-info p {
     font-size: 0.75rem;
     color: #aaa;
+}
+
+/* Carrossel e Preço na Página de Detalhes */
+.carrossel-container {
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--cor-principal);
+    background: #000;
+}
+
+.carrossel-imagem-principal {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.carrossel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(18, 18, 18, 0.8);
+    color: var(--cor-principal);
+    border: 1px solid var(--cor-principal);
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.carrossel-btn:hover {
+    background: var(--cor-principal);
+    color: #fff;
+}
+
+.carrossel-btn-prev { left: 15px; }
+.carrossel-btn-next { right: 15px; }
+
+.carrossel-miniaturas {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.miniatura-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #444;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.miniatura-img:hover, .miniatura-img.ativa {
+    border-color: var(--cor-principal);
+    opacity: 1;
+}
+
+.preco-destaque-box {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a1212 100%);
+    border: 1px solid var(--cor-principal);
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.preco-valor {
+    font-size: 2rem;
+    color: var(--cor-principal);
+    font-weight: bold;
+    font-family: 'Cinzel', serif;
+}
+
+/* Botão de contacto específico da página de detalhes */
+/* Estilo unificado para os botões de contacto na página de detalhes */
+.btn-contacto-detalhe {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--cor-principal) !important;
+    border: 1px solid var(--cor-principal);
+    color: #fff !important;
+    padding: 15px;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: 0.3s;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+}
+
+.btn-contacto-detalhe:hover {
+    background: var(--cor-principal-hover) !important;
+    border-color: var(--cor-principal-hover);
+    color: #fff !important;
 }
