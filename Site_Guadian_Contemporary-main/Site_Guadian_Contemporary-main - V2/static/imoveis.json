@@ -1,0 +1,129 @@
+[
+    {
+        "id": 1,
+        "titulo": "Apartamento Luxo Ribeira",
+        "tipo": "Apartamento",
+        "localizacao": "Lisboa, Portugal",
+        "preco": 0,
+        "quartos": 3,
+        "wc": 2,
+        "area": 180,
+        "destaque": true,
+        "imagens": [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80"
+        ],
+        "descricao": "Apartamento exclusivo no coração da cidade com vistas desafogadas, design contemporâneo e máxima eficiência energética."
+    },
+    {
+        "id": 2,
+        "titulo": "Apartamento Luxo Ribeira",
+        "tipo": "Apartamento",
+        "localizacao": "Lisboa, Portugal",
+        "preco": 0,
+        "quartos": 3,
+        "wc": 2,
+        "area": 180,
+        "destaque": true,
+        "imagens": [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80"
+        ],
+        "descricao": "Apartamento exclusivo no coração da cidade com vistas desafogadas, design contemporâneo e máxima eficiência energética."
+    },
+    {
+        "id": 3,
+        "titulo": "Quinta Nobre do Alentejo",
+        "tipo": "Quinta",
+        "localizacao": "Évora, Portugal",
+        "preco": 0,
+        "quartos": 6,
+        "wc": 6,
+        "area": 600,
+        "destaque": true,
+        "imagens": [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80"
+        ],
+        "descricao": "Propriedade secular recuperada com todo o requinte moderno, piscina panorâmica, vinha própria e recantos de absoluta serenidade."
+    },
+    {
+        "id": 4,
+        "titulo": "Moradia Contemporânea Golf",
+        "tipo": "Moradia",
+        "localizacao": "Cascais, Portugal",
+        "preco": 0,
+        "quartos": 4,
+        "wc": 5,
+        "area": 380,
+        "destaque": false,
+        "imagens": [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80"
+        ],
+        "descricao": "Arquitetura vanguardista junto aos campos de golfe, com domótica avançada, acabamentos dourados e luminosidade natural inigualável."
+    },
+    {
+        "id": 5,
+        "titulo": "Palacete Urbano Século XIX",
+        "tipo": "Moradia",
+        "localizacao": "Coimbra, Portugal",
+        "preco": 0,
+        "quartos": 7,
+        "wc": 5,
+        "area": 520,
+        "destaque": false,
+        "imagens": [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80"
+        ],
+        "descricao": "Imponente palacete com detalhes arquitetónicos clássicos, tetos trabalhados e excelente localização histórica."
+    },
+    {
+        "id": 6,
+        "titulo": "Penthouse Vista Mar",
+        "tipo": "Apartamento",
+        "localizacao": "Porto, Portugal",
+        "preco": 0,
+        "quartos": 3,
+        "wc": 3,
+        "area": 240,
+        "destaque": false,
+        "imagens": [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80"
+        ],
+        "descricao": "Cobertura luxuosa com terraço panorâmico sobre o Atlântico, acabamentos de gama alta e conforto absoluto."
+    },
+    {
+        "id": 7,
+        "titulo": "Chalet Alpino da Serra",
+        "tipo": "Moradia",
+        "localizacao": "Serra da Estrela, Portugal",
+        "preco": 0,
+        "quartos": 4,
+        "wc": 3,
+        "area": 310,
+        "destaque": true,
+        "imagens": [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80"
+        ],
+        "descricao": "Refúgio alpino de luxo com vista panorâmica para a montanha, lareira em pedra natural e aquecimento central avançado."
+    }
+
+]

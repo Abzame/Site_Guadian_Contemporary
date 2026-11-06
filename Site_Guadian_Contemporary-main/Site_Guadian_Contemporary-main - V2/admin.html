@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Gerador de Imóveis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body style="padding: 2rem;">
+
+    <div style="max-width: 700px; margin: 0 auto; background: var(--card-bg); border: 1px solid var(--dourado); padding: 30px; border-radius: 8px;">
+        <h1 style="color: var(--dourado); text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem;">Gerador de Imóveis JSON</h1>
+        <p style="color: #aaa; text-align: center; margin-bottom: 2rem; font-size: 0.9rem;">Preencha os dados abaixo para gerar o código a inserir no ficheiro <code>static/imoveis.json</code>.</p>
+
+        <form id="formAdmin" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+                <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">ID do Imóvel (número sequencial):</label>
+                <input type="number" id="admId" required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+            </div>
+
+            <div>
+                <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Título do Imóvel:</label>
+                <input type="text" id="admTitulo" placeholder="Ex: Moradia Exclusiva Cascais" required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <div style="flex: 1;">
+                    <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Tipo:</label>
+                    <select id="admTipo" style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+                        <option value="Moradia">Moradia</option>
+                        <option value="Apartamento">Apartamento</option>
+                        <option value="Quinta">Quinta</option>
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Localização:</label>
+                    <input type="text" id="admLocal" placeholder="Ex: Lisboa, Portugal" required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <div style="flex: 1;">
+                    <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Preço (€):</label>
+                    <input type="number" id="admPreco" placeholder="850000" required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Quartos:</label>
+                    <input type="number" id="admQuartos" placeholder="4" required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Área (m²):</label>
+                    <input type="number" id="admArea" placeholder="350" required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+                </div>
+            </div>
+
+            <div>
+                <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Link da Imagem (URL):</label>
+                <input type="url" id="admImagem" placeholder="https://images.unsplash.com/..." required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+            </div>
+
+            <div>
+                <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Marcar como Destaque na Home?</label>
+                <select id="admDestaque" style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px;">
+                    <option value="false">Não</option>
+                    <option value="true">Sim (Aparece nos Destaques)</option>
+                </select>
+            </div>
+
+            <div>
+                <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Descrição:</label>
+                <textarea id="admDescricao" rows="3" placeholder="Descrição detalhada do imóvel..." required style="width: 100%; background: #111; border: 1px solid var(--dourado); color: #fff; padding: 10px; border-radius: 4px; font-family: 'Cinzel', serif;"></textarea>
+            </div>
+
+            <button type="button" onclick="gerarJSON()" style="background: var(--dourado); color: #111; border: none; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; font-family: 'Cinzel', serif; font-size: 1rem; margin-top: 1rem;">Gerar Código JSON</button>
+        </form>
+
+        <div id="resultadoArea" style="margin-top: 2rem; display: none;">
+            <label style="color: var(--dourado); display: block; margin-bottom: 0.5rem;">Copie este código e cole no seu <code>imoveis.json</code>:</label>
+            <textarea id="jsonOutput" rows="12" readonly style="width: 100%; background: #090909; border: 1px solid #444; color: #7ec699; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 0.85rem;"></textarea>
+        </div>
+    </div>
+
+    <script>
+        function gerarJSON() {
+            const imovel = {
+                id: parseInt(document.getElementById('admId').value),
+                titulo: document.getElementById('admTitulo').value,
+                tipo: document.getElementById('admTipo').value,
+                localizacao: document.getElementById('admLocal').value,
+                preco: parseFloat(document.getElementById('admPreco').value),
+                quartos: parseInt(document.getElementById('admQuartos').value),
+                wc: 3, // Padrão ou ajustável
+                area: parseInt(document.getElementById('admArea').value),
+                destaque: document.getElementById('admDestaque').value === 'true',
+                imagem: document.getElementById('admImagem').value,
+                descricao: document.getElementById('admDescricao').value
+            };
+
+            const jsonString = JSON.stringify(imovel, null, 4);
+            document.getElementById('jsonOutput').value = jsonString + ",";
+            document.getElementById('resultadoArea').style.display = "block";
+        }
+    </script>
+</body>
+</html>
