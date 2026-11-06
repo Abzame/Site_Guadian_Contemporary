@@ -21,9 +21,22 @@
 
     <footer style="margin-top: 4rem;">
         <h3>Contemporary Guardian Real Estate Portugal</h3>
-        <p>Email: contemporaryguardian@gmail.com</p>
+        <p>Email: cgp@cgimobiliaria.com</p>
         <p style="margin-top: 1.5rem; font-size: 0.8rem; color: #555;">&copy; 2026 Contemporary Guardian. Todos os direitos reservados.</p>
     </footer>
+
+    <!-- Modal Full Screen com Setas e Miniaturas -->
+    <div id="modalFullscreen" class="modal-fullscreen">
+        <button class="modal-fechar" onclick="fecharFullscreen()">&times;</button>
+        <button class="modal-btn-seta modal-btn-prev" onclick="mudarImagemFullscreen(-1)">&#10094;</button>
+        
+        <img class="modal-fullscreen-img" id="imgModalSrc" src="" alt="Imagem Ampliada">
+        
+        <button class="modal-btn-seta modal-btn-next" onclick="mudarImagemFullscreen(1)">&#10095;</button>
+        
+        <!-- Miniaturas em baixo no Fullscreen -->
+        <div class="modal-miniaturas-container" id="modalContainerMiniaturas"></div>
+    </div>
 
     <script src="static/scripts.js"></script>
 </body>
