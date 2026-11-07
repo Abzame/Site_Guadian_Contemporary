@@ -1,4 +1,7 @@
-/* Contemporary Guardian Real Estate Portugal - Novo Esquema (Vermelho, Branco e Preto) */
+/* ==========================================
+   CONTEMPORARY GUARDIAN - STYLES.CSS
+   ========================================== */
+
 :root {
     --bg-dark: #121212;
     --card-bg: #1a1a1a;
@@ -215,11 +218,30 @@ nav ul li a:hover, nav ul li a.active {
     border-color: var(--cor-principal);
 }
 
-.card-imovel img {
+/* --- PROPORÇÃO NORMAL NOS CARDS DO CATÁLOGO --- */
+.card-imagem-wrapper {
     width: 100%;
     height: 220px;
-    object-fit: cover;
-    border-bottom: 2px solid var(--cor-principal);
+    overflow: hidden;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-imovel img,
+.card-imagem-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Mantém a proporção real original sem cortes ou distorções */
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.card-imovel:hover .card-imagem-wrapper img {
+    transform: scale(1.05);
 }
 
 .card-body {
@@ -394,29 +416,39 @@ footer p {
     color: #aaa;
 }
 
-/* Carrossel e Preço na Página de Detalhes */
+/* --- CARROSSEL E IMAGEM PRINCIPAL COM PROPORÇÃO NORMAL --- */
 .carrossel-container {
     position: relative;
     width: 100%;
+    max-width: 850px;
+    height: 450px;
+    margin: 0 auto;
     border-radius: 8px;
     overflow: hidden;
     border: 2px solid var(--cor-principal);
     background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .carrossel-imagem-principal {
-    width: 100%;
-    height: 420px;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Mantém a proporção real sem cortes ou distorções */
     display: block;
+    cursor: zoom-in;
     transition: opacity 0.3s ease;
 }
 
+/* Botões de navegação do carrossel */
 .carrossel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(18, 18, 18, 0.8);
+    background: rgba(18, 18, 18, 0.85);
     color: var(--cor-principal);
     border: 1px solid var(--cor-principal);
     padding: 12px 16px;
@@ -435,28 +467,44 @@ footer p {
 .carrossel-btn-prev { left: 15px; }
 .carrossel-btn-next { right: 15px; }
 
-.carrossel-miniaturas {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-    overflow-x: auto;
-    padding-bottom: 5px;
+/* --- JANELA FIXA PARA EXIBIR APENAS 3 MINIATURAS --- */
+.miniaturas-window {
+    width: 275px; 
+    margin: 15px auto 0 auto;
+    overflow: hidden; 
+    position: relative;
 }
 
-.miniatura-img {
-    width: 80px;
-    height: 60px;
-    object-fit: cover;
+.carrossel-miniaturas,
+.galeria-miniaturas {
+    display: flex !important;
+    gap: 10px !important;
+    transition: transform 0.3s ease-in-out;
+    width: max-content; 
+}
+
+.miniatura-img,
+.galeria-miniaturas img,
+.detalhes-minis img {
+    width: 85px !important;
+    min-width: 85px !important;
+    max-width: 85px !important;
+    height: 60px !important;
+    flex-shrink: 0 !important;
+    object-fit: cover; /* Mantém as miniaturas uniformes e quadradas */
     border-radius: 4px;
     border: 1px solid #444;
     cursor: pointer;
-    opacity: 0.6;
+    opacity: 0.5;
     transition: 0.3s;
 }
 
-.miniatura-img:hover, .miniatura-img.ativa {
-    border-color: var(--cor-principal);
-    opacity: 1;
+.miniatura-img.ativa,
+.miniatura-img.ativo,
+.galeria-miniaturas img.ativo,
+.galeria-miniaturas img.ativa {
+    border-color: var(--cor-principal) !important;
+    opacity: 1 !important;
 }
 
 .preco-destaque-box {
@@ -478,7 +526,6 @@ footer p {
 }
 
 /* Botão de contacto específico da página de detalhes */
-/* Estilo unificado para os botões de contacto na página de detalhes */
 .btn-contacto-detalhe {
     display: block;
     width: 100%;
@@ -543,10 +590,6 @@ footer p {
     color: var(--cor-principal);
 }
 
-.carrossel-imagem-principal {
-    cursor: zoom-in; /* Indica ao utilizador que a foto pode ser ampliada */
-}
-
 /* --- Setas de Navegação no Ecrã Completo (Fullscreen) --- */
 .modal-btn-seta {
     position: absolute;
@@ -572,24 +615,40 @@ footer p {
 .modal-btn-next { right: 30px; }
 
 /* --- Miniaturas no Ecrã Completo (Fullscreen) --- */
-.modal-miniaturas-container {
+/* --- JANELA DE MINIATURAS NO MODO FULLSCREEN (EXatamente 3 visíveis) --- */
+.modal-miniaturas-wrapper {
     position: absolute;
-    bottom: 15px;
-    display: flex;
-    gap: 12px;
-    background: rgba(18, 18, 18, 0.85);
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid var(--cor-principal);
-    max-width: 90%;
-    overflow-x: auto;
+    bottom: 20px;
+    width: 275px; /* Largura exata para 3 miniaturas */
+    overflow: hidden;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100000;
 }
 
+.modal-miniaturas-container {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    display: flex !important;
+    gap: 10px !important;
+    background: rgba(18, 18, 18, 0.85);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-principal);
+    width: max-content;
+    transition: transform 0.3s ease-in-out;
+}
+
 .modal-miniatura-img {
-    width: 70px;
-    height: 50px;
-    object-fit: cover;
+    width: 85px !important;
+    min-width: 85px !important;
+    max-width: 85px !important;
+    height: 60px !important;
+    flex-shrink: 0 !important;
+    object-fit: cover !important;
     border-radius: 4px;
     border: 1px solid #444;
     cursor: pointer;
@@ -597,10 +656,11 @@ footer p {
     transition: 0.3s;
 }
 
-.modal-miniatura-img:hover, .modal-miniatura-img.ativa {
+.modal-miniatura-img:hover, 
+.modal-miniatura-img.ativa {
     border-color: var(--cor-principal);
     opacity: 1;
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 /* ==========================================
@@ -608,22 +668,19 @@ footer p {
    ========================================== */
 @media (max-width: 768px) {
     
-    /* 1. Grelhas de Imóveis (Catálogo e Destaques) passam para 1 coluna */
     #gridImoveis, 
     #gridDestaques {
-        grid-template-columns: 1fr !important; /* Força 1 card por linha */
+        grid-template-columns: 1fr !important;
         gap: 1.5rem !important;
         padding: 0 1rem;
     }
 
-    /* 2. Página de Detalhe do Imóvel passa a coluna única */
     #detalheImovel {
         grid-template-columns: 1fr !important;
         gap: 2rem !important;
         padding: 1rem;
     }
 
-    /* 3. Ajuste de Tamanhos de Texto e Títulos */
     h1 {
         font-size: 1.6rem !important;
     }
@@ -632,7 +689,6 @@ footer p {
         font-size: 1.3rem !important;
     }
 
-    /* 4. Barra de Pesquisa e Filtros */
     .filtros-container,
     .search-container-wrapper {
         flex-direction: column !important;
@@ -646,16 +702,28 @@ footer p {
         margin-bottom: 0.5rem;
     }
 
-    /* 5. Imagens e Carrossel */
     .carrossel-imagem-principal,
     .card-imagem-wrapper {
-        height: 220px !important; /* Altura ideal para ecrãs mobile */
+        height: 220px !important;
     }
 
-    /* 6. Menu de Navegação do Header */
     nav ul {
         flex-direction: column !important;
         align-items: center;
         gap: 0.8rem;
     }
+}
+
+/* --- GARANTIR FUNDO SÓLIDO NO MODO FULLSCREEN --- */
+#modalFullscreen {
+    background-color: rgba(0, 0, 0, 0.98) !important; /* Fundo quase opaco para esconder a página de trás */
+    z-index: 999999 !important;
+}
+
+/* Garante que o contentor interno das miniaturas do modal desliza corretamente */
+#modalContainerMiniaturasInterno {
+    display: flex !important;
+    gap: 10px !important;
+    width: max-content !important;
+    transition: transform 0.3s ease-in-out !important;
 }

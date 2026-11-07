@@ -1,6 +1,8 @@
-/* static/scripts.js - Versão com Live Search Flutuante e Detalhes */
+/* static/scripts.js - Versão Otimizada com Carrossel de 3 Miniaturas e Fullscreen Sincronizado */
 
 let todosImoveis = [];
+let imagensAtuais = [];
+let indiceImagemAtual = 0;
 
 // 1. Carregar o Header Dinamicamente
 fetch('header.html')
@@ -53,7 +55,6 @@ function configurarPesquisaTempoReal() {
     inputTexto.addEventListener('input', () => {
         const texto = inputTexto.value.toLowerCase().trim();
         
-        // Se estiver na página de catálogo, filtra também a grelha principal
         if (document.getElementById('gridImoveis')) {
             filtrarImoveis();
         }
@@ -64,7 +65,6 @@ function configurarPesquisaTempoReal() {
             return;
         }
 
-        // Tratamento para limpar o termo de pesquisa caso incluam "cg-"
         const termoSemPrefixo = texto.replace('cg-', '').replace('cg', '');
 
         const encontrados = todosImoveis.filter(imovel => {
@@ -96,7 +96,7 @@ function configurarPesquisaTempoReal() {
                 <img src="${imagemSrc}" alt="${imovel.titulo}">
                 <div class="sugestao-info">
                     <h4>${imovel.titulo}</h4>
-                    <p>Ref: CG-${imovel.id} • ${imovel.localizacao} • <strong style="color: var(--cor-principal);">${imovel.preco.toLocaleString('pt-PT')} €</strong></p>
+                    <p>Ref: CG-${imovel.id} ${imovel.localizacao} <strong style="color: var(--cor-principal);">${imovel.preco.toLocaleString('pt-PT')} €</strong></p>
                 </div>
             `;
             dropdown.appendChild(item);
@@ -128,22 +128,26 @@ function carregarDetalhesImovel() {
         return;
     }
 
-    const listaImagens = imovel.imagens || [imovel.imagem];
+    imagensAtuais = imovel.imagens || [imovel.imagem];
+    indiceImagemAtual = 0;
 
     container.innerHTML = `
         <div>
             <div class="carrossel-container">
                 <button class="carrossel-btn carrossel-btn-prev" onclick="mudarImagemCarrossel(-1)">&#10094;</button>
-                <img id="imagemPrincipal" src="${listaImagens[0]}" alt="${imovel.titulo}" class="carrossel-imagem-principal" onclick="abrirFullscreen()" title="Clique para ver em ecrã completo">
+                <img id="imagemPrincipal" src="${imagensAtuais[0]}" alt="${imovel.titulo}" class="carrossel-imagem-principal" onclick="abrirFullscreen()" title="Clique para ver em ecrã completo">
                 <button class="carrossel-btn carrossel-btn-next" onclick="mudarImagemCarrossel(1)">&#10095;</button>
             </div>
             
             <p style="text-align: center; font-size: 0.75rem; color: #888; margin-top: 5px;">💡 Clique na foto principal para ampliar em ecrã completo</p>
             
-            <div class="carrossel-miniaturas" id="containerMiniaturas">
-                ${listaImagens.map((img, index) => `
-                    <img src="${img}" class="miniatura-img ${index === 0 ? 'ativa' : ''}" onclick="selecionarImagem(${index})" alt="Miniatura ${index + 1}">
-                `).join('')}
+            <!-- Janela restrita a 3 miniaturas -->
+            <div style="width: 275px; margin: 15px auto 0 auto; overflow: hidden;">
+                <div class="carrossel-miniaturas" id="containerMiniaturas">
+                    ${imagensAtuais.map((img, index) => `
+                        <img src="${img}" class="miniatura-img ${index === 0 ? 'ativa' : ''}" onclick="selecionarImagem(${index})" alt="Miniatura ${index + 1}">
+                    `).join('')}
+                </div>
             </div>
         </div>
 
@@ -174,111 +178,132 @@ function carregarDetalhesImovel() {
                 <a href="tel:+351927298734" class="btn-contacto-detalhe" style="background: #1a1a1a !important; border: 1px solid var(--cor-principal);">
                     📞 Ligar Diretamente (+351 927 298 734)
                 </a>
-                <a href="mailto:cgp@cgimobiliaria.com?subject=Interesse no imóvel: ${imovel.titulo} (Ref: CG-${imovel.id})" class="btn-contacto-detalhe">
+                <a href="mailto:cgp@cgpimobiliaria.com?subject=Interesse no imóvel: ${imovel.titulo} (Ref: CG-${imovel.id})" class="btn-contacto-detalhe">
                     ✉️ Agendar Visita / Contactar por Email
                 </a>
             </div>
         </div>
     `;
-
-    window.imagensAtuais = listaImagens;
-    window.indiceImagemAtual = 0;
 }
 
 
-// 5. Funções de Controlo do Full Screen e Carrossel
-function abrirFullscreen() {
-    const modal = document.getElementById('modalFullscreen');
-    const imgModal = document.getElementById('imgModalSrc');
-    const containerMiniaturasModal = document.getElementById('modalContainerMiniaturas');
-    
-    if (modal && imgModal && window.imagensAtuais) {
-        imgModal.src = window.imagensAtuais[window.indiceImagemAtual];
-        
-        if (containerMiniaturasModal) {
-            containerMiniaturasModal.innerHTML = window.imagensAtuais.map((img, index) => `
-                <img src="${img}" class="modal-miniatura-img ${index === window.indiceImagemAtual ? 'ativa' : ''}" onclick="selecionarImagemFullscreen(${index})" alt="Miniatura ${index + 1}">
-            `).join('');
-        }
-        
-        modal.style.display = 'flex';
-    }
-}
-
-function fecharFullscreen() {
-    const modal = document.getElementById('modalFullscreen');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-}
-
-function mudarImagemFullscreen(direcao) {
-    if (!window.imagensAtuais) return;
-    
-    window.indiceImagemAtual += direcao;
-    if (window.indiceImagemAtual >= window.imagensAtuais.length) {
-        window.indiceImagemAtual = 0;
-    } else if (window.indiceImagemAtual < 0) {
-        window.indiceImagemAtual = window.imagensAtuais.length - 1;
-    }
-    
-    atualizarVisualizacaoCarrossel();
-    
-    const imgModal = document.getElementById('imgModalSrc');
-    if (imgModal) {
-        imgModal.src = window.imagensAtuais[window.indiceImagemAtual];
-    }
-    atualizarEstadoMiniaturasFullscreen();
-}
-
-function selecionarImagemFullscreen(index) {
-    window.indiceImagemAtual = index;
-    atualizarVisualizacaoCarrossel();
-    
-    const imgModal = document.getElementById('imgModalSrc');
-    if (imgModal) {
-        imgModal.src = window.imagensAtuais[window.indiceImagemAtual];
-    }
-    atualizarEstadoMiniaturasFullscreen();
-}
-
-function atualizarEstadoMiniaturasFullscreen() {
-    const miniaturasModal = document.querySelectorAll('.modal-miniatura-img');
-    miniaturasModal.forEach((min, idx) => {
-        if (idx === window.indiceImagemAtual) {
-            min.classList.add('ativa');
-        } else {
-            min.classList.remove('ativa');
-        }
-    });
-}
-
+// 5. Controlo do Carrossel e Deslize das 3 Miniaturas (Página Principal)
 function mudarImagemCarrossel(direcao) {
-    if (!window.imagensAtuais) return;
-    window.indiceImagemAtual += direcao;
-    if (window.indiceImagemAtual >= window.imagensAtuais.length) window.indiceImagemAtual = 0;
-    else if (window.indiceImagemAtual < 0) window.indiceImagemAtual = window.imagensAtuais.length - 1;
+    if (imagensAtuais.length === 0) return;
+    
+    indiceImagemAtual += direcao;
+    if (indiceImagemAtual >= imagensAtuais.length) {
+        indiceImagemAtual = 0;
+    } else if (indiceImagemAtual < 0) {
+        indiceImagemAtual = imagensAtuais.length - 1;
+    }
+    
     atualizarVisualizacaoCarrossel();
 }
 
 function selecionarImagem(index) {
-    window.indiceImagemAtual = index;
+    indiceImagemAtual = index;
     atualizarVisualizacaoCarrossel();
 }
 
 function atualizarVisualizacaoCarrossel() {
     const imgPrincipal = document.getElementById('imagemPrincipal');
-    if (imgPrincipal) imgPrincipal.src = window.imagensAtuais[window.indiceImagemAtual];
+    if (imgPrincipal) {
+        imgPrincipal.src = imagensAtuais[indiceImagemAtual];
+    }
     
     const miniaturas = document.querySelectorAll('.miniatura-img');
     miniaturas.forEach((min, idx) => {
-        if (idx === window.indiceImagemAtual) min.classList.add('ativa');
-        else min.classList.remove('ativa');
+        if (idx === indiceImagemAtual) {
+            min.classList.add('ativa', 'ativo');
+        } else {
+            min.classList.remove('ativa', 'ativo');
+        }
     });
+
+    // Desliza as miniaturas em blocos de 3 (95px por miniatura contando com o gap)
+    const container = document.getElementById('containerMiniaturas');
+    if (container) {
+        const bloco = Math.floor(indiceImagemAtual / 3);
+        const deslocamento = bloco * (95 * 3);
+        container.style.transform = `translateX(-${deslocamento}px)`;
+        container.style.transition = 'transform 0.3s ease-in-out';
+    }
+
+    // Sincroniza também se o modal estiver aberto
+    const imgModal = document.getElementById('imgModalSrc');
+    if (imgModal && imgModal.offsetParent !== null) {
+        imgModal.src = imagensAtuais[indiceImagemAtual];
+        atualizarEstadoMiniaturasFullscreen();
+    }
+}
+
+// Atalhos para setas globais se necessário
+function proximaFoto() { mudarImagemCarrossel(1); }
+function fotoAnterior() { mudarImagemCarrossel(-1); }
+
+
+// 6. Funções de Fullscreen (Lightbox com 3 Miniaturas Sincronizadas)
+function abrirFullscreen() {
+    const modal = document.getElementById('modalFullscreen');
+    const imgModal = document.getElementById('imgModalSrc');
+    const containerMiniaturasModal = document.getElementById('modalContainerMiniaturas');
+    
+    if (modal && imgModal && imagensAtuais) {
+        imgModal.src = imagensAtuais[indiceImagemAtual];
+        
+        if (containerMiniaturasModal) {
+            containerMiniaturasModal.innerHTML = `
+                <div style="width: 275px; overflow: hidden; margin: 0 auto; position: relative;">
+                    <div id="modalContainerMiniaturasInterno" style="display: flex; gap: 10px; transition: transform 0.3s ease-in-out;">
+                        ${imagensAtuais.map((img, index) => `
+                            <img src="${img}" class="modal-miniatura-img ${index === indiceImagemAtual ? 'ativa' : ''}" onclick="selecionarImagemFullscreen(${index})" alt="Miniatura ${index + 1}" style="width: 85px !important; min-width: 85px !important; height: 60px !important; object-fit: cover; border-radius: 4px; border: 1px solid #444; cursor: pointer; opacity: 0.5;">
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        modal.style.display = 'flex';
+        atualizarEstadoMiniaturasFullscreen();
+    }
+}
+
+function fecharFullscreen() {
+    const modal = document.getElementById('modalFullscreen');
+    if (modal) modal.style.display = 'none';
+}
+
+function mudarImagemFullscreen(direcao) {
+    mudarImagemCarrossel(direcao);
+}
+
+function selecionarImagemFullscreen(index) {
+    selecionarImagem(index);
+}
+
+function atualizarEstadoMiniaturasFullscreen() {
+    const miniaturasModal = document.querySelectorAll('.modal-miniatura-img');
+    miniaturasModal.forEach((min, idx) => {
+        if (idx === indiceImagemAtual) {
+            min.classList.add('ativa', 'ativo');
+        } else {
+            min.classList.remove('ativa', 'ativo');
+        }
+    });
+
+    // Desliza as miniaturas do modal em blocos de 3
+    const containerModal = document.getElementById('modalContainerMiniaturasInterno');
+    if (containerModal) {
+        const bloco = Math.floor(indiceImagemAtual / 3);
+        const deslocamento = bloco * (95 * 3);
+        containerModal.style.transform = `translateX(-${deslocamento}px)`;
+        containerModal.style.transition = 'transform 0.3s ease-in-out';
+    }
 }
 
 
-// 6. Funções Auxiliares (Destaques, Catálogo e Filtros)
+// 7. Funções Auxiliares (Destaques, Catálogo e Filtros)
 function carregarDestaques() {
     const grid = document.getElementById('gridDestaques');
     if (!grid) return;
@@ -305,7 +330,6 @@ function exibirImoveis(lista) {
     container.innerHTML = lista.map(imovel => gerarHtmlCardImovel(imovel)).join('');
 }
 
-// Função unificada para gerar o HTML do Card com a imagem no topo
 function gerarHtmlCardImovel(imovel) {
     const fotoCapa = (imovel.imagens && imovel.imagens.length > 0) ? imovel.imagens[0] : imovel.imagem;
 
@@ -332,7 +356,6 @@ function gerarHtmlCardImovel(imovel) {
                     ${imovel.descricao}
                 </p>
 
-                <!-- COLA ESTA PARTE AQUI DENTRO DO CARD -->
                 <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; font-size: 0.8rem; color: #ccc; margin-bottom: 1.2rem; border-top: 1px solid #222; padding-top: 0.8rem;">
                     <span>📍 ${imovel.localizacao}</span>
                     <span>🛏️ ${imovel.quartos} Quartos</span>
